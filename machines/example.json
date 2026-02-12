@@ -1,0 +1,14 @@
+{
+    "name": "Ejemplo Maquina",
+    "blank": "_",
+    "start_state": "q0",
+    "accept_states": ["qa"],
+    "reject_states": ["qr"],
+    "table_alphabet": ["1","X","_"],
+    "input_alphabet": ["1"],
+    "transitions": [
+        {"state": "q0", "read": "1", "write": "X", "move":"R", "next":"q0"},
+        {"state": "q0", "read": "_", "write": "_", "move":"S", "next":"qa"}
+
+    ]
+}
