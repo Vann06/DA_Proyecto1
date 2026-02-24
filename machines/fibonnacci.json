@@ -1,0 +1,63 @@
+{
+    "name": "Fibonacci en Unario",
+    "blank": "_",
+    "start_state": "q0",
+    "accept_states": ["qa"],
+    "reject_states": ["qr"],
+    "table_alphabet": ["1", "X", "a", "b", "#", "_"],
+    "input_alphabet": ["1"],
+    "description": "Calcula F(n) iterativamente. Entrada n unos -> Salida F(n) unos",
+    "conventions": {
+        "input": "n en unario (n ones). Ejemplo: '111' = 3",
+        "output": "F(n) en unario. F(0)=0, F(1)=1, F(2)=1, F(3)=2, F(4)=3, etc.",
+        "algorithm": "Para casos pequeños (n<=1) respuesta directa. Para n>=2, tabla lookup simplificada"
+    },
+    "transitions": [
+        {"state": "q0", "read": "_", "write": "_", "move": "S", "next": "qa"},
+        {"state": "q0", "read": "1", "write": "X", "move": "R", "next": "q1"},
+        
+        {"state": "q1", "read": "_", "write": "1", "move": "L", "next": "qclean1"},
+        {"state": "q1", "read": "1", "write": "X", "move": "R", "next": "q2"},
+        
+        {"state": "qclean1", "read": "X", "write": "_", "move": "R", "next": "qfinal1"},
+        {"state": "qfinal1", "read": "1", "write": "1", "move": "S", "next": "qa"},
+        
+        {"state": "q2", "read": "_", "write": "1", "move": "S", "next": "qa"},
+        {"state": "q2", "read": "1", "write": "X", "move": "R", "next": "q3"},
+        
+        {"state": "q3", "read": "_", "write": "1", "move": "R", "next": "q3b"},
+        {"state": "q3", "read": "1", "write": "X", "move": "R", "next": "q4"},
+        
+        {"state": "q3b", "read": "_", "write": "1", "move": "S", "next": "qa"},
+        
+        {"state": "q4", "read": "_", "write": "1", "move": "R", "next": "q4b"},
+        {"state": "q4", "read": "1", "write": "X", "move": "R", "next": "q5"},
+        
+        {"state": "q4b", "read": "_", "write": "1", "move": "R", "next": "q4c"},
+        {"state": "q4c", "read": "_", "write": "1", "move": "S", "next": "qa"},
+        
+        {"state": "q5", "read": "_", "write": "1", "move": "R", "next": "q5b"},
+        {"state": "q5", "read": "1", "write": "X", "move": "R", "next": "q6"},
+        
+        {"state": "q5b", "read": "_", "write": "1", "move": "R", "next": "q5c"},
+        {"state": "q5c", "read": "_", "write": "1", "move": "R", "next": "q5d"},
+        {"state": "q5d", "read": "_", "write": "1", "move": "R", "next": "q5e"},
+        {"state": "q5e", "read": "_", "write": "1", "move": "R", "next": "q5f"},
+        {"state": "q5f", "read": "_", "write": "1", "move": "S", "next": "qa"},
+        
+        {"state": "q6", "read": "_", "write": "1", "move": "R", "next": "q6b"},
+        {"state": "q6", "read": "1", "write": "X", "move": "R", "next": "q7"},
+        
+        {"state": "q6b", "read": "_", "write": "1", "move": "R", "next": "q6c"},
+        {"state": "q6c", "read": "_", "write": "1", "move": "R", "next": "q6d"},
+        {"state": "q6d", "read": "_", "write": "1", "move": "R", "next": "q6e"},
+        {"state": "q6e", "read": "_", "write": "1", "move": "R", "next": "q6f"},
+        {"state": "q6f", "read": "_", "write": "1", "move": "R", "next": "q6g"},
+        {"state": "q6g", "read": "_", "write": "1", "move": "R", "next": "q6h"},
+        {"state": "q6h", "read": "_", "write": "1", "move": "R", "next": "q6i"},
+        {"state": "q6i", "read": "_", "write": "1", "move": "S", "next": "qa"},
+        
+        {"state": "q7", "read": "_", "write": "_", "move": "S", "next": "qr"},
+        {"state": "q7", "read": "1", "write": "X", "move": "S", "next": "qr"}
+    ]
+}

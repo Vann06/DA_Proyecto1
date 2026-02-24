@@ -37,9 +37,10 @@ class Tape:
             self.head -= 1
         elif direction == "R":
             self.head += 1
-            # guardar 
         elif direction == "S":
-            self.head == "S"
+            # S = Stay, no mover el cabezal
+            # antes teniamos self.head == "S"
+            pass
         else:
             raise ValueError(f"Movimiento invalido:{direction}")
         
