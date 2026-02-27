@@ -22,7 +22,7 @@ DA_Proyecto1/
 │   ├── loader.py           # Carga y validación de máquinas desde JSON
 │   └── visualize_tm.py     # Generador de diagramas de estados (Graphviz/DOT)
 ├── machines/               # Definiciones de Máquinas de Turing en formato JSON
-│   ├── fibonnacci.json     # Máquina para calcular la secuencia de Fibonacci
+│   ├── fibonacci.json      # Máquina para calcular la secuencia de Fibonacci
 │   └── example.json        # Máquina de ejemplo
 ├── experiments/            # Scripts para pruebas de rendimiento
 │   ├── bench.py            # Ejecución de benchmarks (tiempo y pasos)
@@ -59,7 +59,7 @@ python -m src.cli --machine <ruta_al_json> --input <cadena_entrada> [--trace] [-
 
 **Ejemplo de ejecución:**
 ```bash
-python -m src.cli --machine machines/fibonnacci.json --input "11111" --trace
+python -m src.cli --machine machines/fibonacci.json --input "11111" --trace
 ```
 
 * `--machine`: Ruta al archivo JSON que define la Máquina de Turing.

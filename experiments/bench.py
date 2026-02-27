@@ -115,7 +115,8 @@ def print_summary(results: List[Dict]):
     
     successful = len([r for r in results if r['status'] == 'ACCEPT'])
     failed = len([r for r in results if r['status'] == 'REJECT'])
-    timeout = len([r for r in results if r['status'] == 'TIMEOUT'])
+    timeout_time = len([r for r in results if r['status'] == 'TIMEOUT_TIME'])
+    timeout_steps = len([r for r in results if r['status'] == 'TIMEOUT_STEPS'])
     
     print("\n" + "*" * 70)
     print("RESUMEN")
@@ -123,7 +124,8 @@ def print_summary(results: List[Dict]):
     print(f"Total de ejecuciones:    {len(results)}")
     print(f"Exitosas (ACCEPT):       {successful}")
     print(f"Rechazadas (REJECT):     {failed}")
-    print(f"Timeout:                 {timeout}")
+    print(f"Timeout (Tiempo):        {timeout_time}")
+    print(f"Timeout (Pasos):         {timeout_steps}")
     print(f"Tiempo total:            {total_time:.6f} s")
     print(f"Tiempo promedio:         {avg_time:.6f} s")
     print(f"Pasos totales:           {total_steps}")
@@ -163,7 +165,7 @@ def main():
     Función principal para ejecutar benchmarks
     """
     # Configuración
-    machine_path = os.path.join(os.path.dirname(__file__), '..', 'machines', 'fibonnacci.json')
+    machine_path = os.path.join(os.path.dirname(__file__), '..', 'machines', 'fibonacci.json')
     
     if not os.path.exists(machine_path):
         print(f"Error: No se encontró la máquina en {machine_path}")

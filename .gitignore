@@ -1,7 +1,7 @@
-# Python
+﻿# Python
 __pycache__/
 *.py[cod]
-*$py.class
+*.class
 *.so
 
 # Virtual environments
@@ -21,3 +21,7 @@ Thumbs.db
 trace.txt
 trace_*.txt
 .dist/
+Análisis Empírico/benchmark_results.json
+Análisis Empírico/fibonacci_tm.dot
+Análisis Empírico/fibonacci_tm.png
+Análisis Empírico/report.md

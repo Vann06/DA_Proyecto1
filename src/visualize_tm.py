@@ -130,7 +130,9 @@ def visualize_tm(machine_path: str, output_dir: str = ".", filename_base: str = 
     if dot_bin:
         png_path = os.path.join(output_dir, f"{filename_base}.png")
         try:
+            import shlex
             # Usar -Kfdp para grafos densos/grandes (mejor que -Kdot)
+            # Se pasan los argumentos como lista, lo cual es seguro contra inyección de comandos
             subprocess.run(
                 [dot_bin, "-Tpng", "-Kfdp", "-Gdpi=150", dot_path, "-o", png_path],
                 check=True,
@@ -174,13 +176,6 @@ if __name__ == "__main__":
         # Ruta por defecto relativa al proyecto (un nivel arriba de src/)
         project_root = os.path.dirname(os.path.dirname(__file__))
         MACHINE_PATH = os.path.join(project_root, "machines", "fibonacci.json")
-        
-        # Intentar ruta alternativa con typo
-        if not os.path.exists(MACHINE_PATH):
-            alt = MACHINE_PATH.replace("fibonacci", "fibonnacci")
-            if os.path.exists(alt):
-                MACHINE_PATH = alt
-                print(f"[visualize_tm] Nota: usando 'fibonnacci.json' (typo en nombre de archivo)")
     
     OUTPUT_DIR  = os.path.join(os.path.dirname(__file__), "..", "Análisis Empírico")
     FILENAME    = "fibonacci_tm"
