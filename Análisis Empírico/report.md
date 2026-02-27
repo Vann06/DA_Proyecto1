@@ -17,12 +17,22 @@ que calcula la sucesión de Fibonacci.
 
 | n | Entrada | Pasos | Tiempo (ms) | Estado |
 |---|---------|-------|-------------|--------|
-| 5 | 11111 | 310 | 0.1713 | ACCEPT |
-| 10 | 1111111111 | 11711 | 6.6528 | ACCEPT |
-| 15 | 1111111111... | 1222899 | 743.9204 | ACCEPT |
-| 20 | 1111111111... | 148301948 | 529014.1201 | ACCEPT |
-| 25 | 1111111111... | 72400000 | 60036.5087 | TIMEOUT |
-| 30 | 1111111111... | 74200000 | 60116.1560 | TIMEOUT |
+| 5 | 11111 | 310 | 0.1889 | ACCEPT |
+| 6 | 111111 | 561 | 0.5962 | ACCEPT |
+| 7 | 1111111 | 1083 | 1.4826 | ACCEPT |
+| 8 | 11111111 | 2244 | 2.5739 | ACCEPT |
+| 9 | 111111111 | 4987 | 7.5108 | ACCEPT |
+| 10 | 1111111111 | 11711 | 8.6276 | ACCEPT |
+| 11 | 1111111111... | 28618 | 18.7826 | ACCEPT |
+| 12 | 1111111111... | 71785 | 54.4116 | ACCEPT |
+| 13 | 1111111111... | 183075 | 124.5908 | ACCEPT |
+| 14 | 1111111111... | 471688 | 451.5108 | ACCEPT |
+| 15 | 1111111111... | 1222899 | 905.2844 | ACCEPT |
+| 16 | 1111111111... | 3182543 | 2637.8304 | ACCEPT |
+| 17 | 1111111111... | 8301614 | 7573.9170 | ACCEPT |
+| 18 | 1111111111... | 21685217 | 15436.5007 | ACCEPT |
+| 19 | 1111111111... | 56694411 | 42983.8812 | ACCEPT |
+| 20 | 1111111111... | 148301948 | 123782.5345 | ACCEPT |
 
 ## Análisis de Complejidad
 
@@ -32,13 +42,13 @@ Se probaron polinomios de grado 1 a 5 para ajustar los datos empíricos.
 Para el análisis final se utilizó un polinomio de grado 2 (cuadrático) por consideraciones teóricas.
 
 - **Grado utilizado**: Polinomio de grado 2
-- **Coeficiente R²**: 0.936211
+- **Coeficiente R²**: 0.696925
 - **Complejidad asintótica**: **O(n²) - Cuadrática**
 
 ### Ecuación del Modelo
 
 ```
-f(n) = 1.47e+06*n^2 + -2.78e+07*n^1 + 1.10e+08
+f(n) = 1.14e+06*n^2 + -2.36e+07*n^1 + 1.08e+08
 ```
 
 ### Interpretación
@@ -53,7 +63,7 @@ Esto significa que:
 ## Conclusiones
 
 1. La Máquina de Turing implementada tiene complejidad temporal O(n²) - Cuadrática
-2. El modelo polinomial se ajusta bien a los datos (R² = 0.9362)
+2. El modelo polinomial se ajusta bien a los datos (R² = 0.6969)
 3. Para entradas grandes, el tiempo de ejecución puede crecer rápidamente
 
 ## Visualizaciones
