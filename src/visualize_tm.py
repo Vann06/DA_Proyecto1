@@ -130,17 +130,9 @@ def visualize_tm(machine_path: str, output_dir: str = ".", filename_base: str = 
     if dot_bin:
         png_path = os.path.join(output_dir, f"{filename_base}.png")
         try:
-            import shlex
-            
-            # Sanitizar las rutas para evitar command injection, aunque
-            # passing list args it is generally safe
-            safe_dot_bin = shlex.quote(dot_bin)
-            safe_dot_path = shlex.quote(dot_path)
-            safe_png_path = shlex.quote(png_path)
-
             # Usar -Kfdp para grafos densos/grandes (mejor que -Kdot)
             subprocess.run(
-                [safe_dot_bin, "-Tpng", "-Kfdp", "-Gdpi=150", safe_dot_path, "-o", safe_png_path],
+                [dot_bin, "-Tpng", "-Kfdp", "-Gdpi=150", dot_path, "-o", png_path],
                 check=True,
                 capture_output=True
             )
