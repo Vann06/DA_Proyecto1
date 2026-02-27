@@ -172,7 +172,7 @@ def main():
     # Generar entradas (ajustar max_n para controlar número de pruebas)
     # NOTA: Empezar con valores pequeños. La máquina puede ser lenta para n grandes.
     min_n = 5
-    max_n = 20
+    max_n = 20  
     inputs = generate_inputs_fibonacci(min_n, max_n)
     
     print(f"Generando {len(inputs)} casos de prueba (n={min_n} hasta n={max_n})")

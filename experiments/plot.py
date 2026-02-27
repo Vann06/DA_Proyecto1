@@ -116,15 +116,15 @@ def plot_scatter_with_regression(results: List[Dict], save_path: str = None):
     times_ms = np.array([r['time_ms'] for r in valid_results], dtype=float)
     steps    = np.array([r['steps'] for r in valid_results], dtype=float)
 
-    # ------ Análisis: probar grados 1-5, forzar grado 2 ------
+    # ------ Análisis: probar grados 1-5 y usar el mejor ------
     print("\n--- ANÁLISIS PARA TIEMPO DE EJECUCIÓN ---")
     deg_time, coef_time, r2_time = find_best_polynomial(
-        n_values, times_ms, max_degree=5, force_degree=2)
+        n_values, times_ms, max_degree=5)
     poly_time = np.poly1d(coef_time)
 
     print("\n--- ANÁLISIS PARA NÚMERO DE PASOS ---")
     deg_steps, coef_steps, r2_steps = find_best_polynomial(
-        n_values, steps, max_degree=5, force_degree=2)
+        n_values, steps, max_degree=5)
     poly_steps = np.poly1d(coef_steps)
 
     # Puntos suaves para las curvas
@@ -155,13 +155,13 @@ def plot_scatter_with_regression(results: List[Dict], save_path: str = None):
     ax1.grid(True, alpha=0.25, linestyle=':')
     ax1.legend(fontsize=10, loc='upper left')
 
-    info_time = (f'Grado forzado: 2  (cuadrático)\n'
+    info_time = (f'Grado: {deg_time}\n'
                  f'R² = {r2_time:.4f}\n'
                  f'Complejidad: {complexity_from_degree(deg_time)}')
-    ax1.text(0.98, 0.02, info_time, transform=ax1.transAxes,
-             fontsize=9, family='monospace', verticalalignment='bottom',
-             horizontalalignment='right',
-             bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.85))
+    ax1.text(0.50, 0.88, info_time, transform=ax1.transAxes,
+             fontsize=10, family='monospace', verticalalignment='top',
+             horizontalalignment='center',
+             bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.92, edgecolor='black', linewidth=1.5))
 
     fig1.tight_layout()
     path1 = save_path or os.path.join(os.path.dirname(__file__), "..", "Análisis Empírico", 'time_vs_input.png')
@@ -206,14 +206,13 @@ def plot_scatter_with_regression(results: List[Dict], save_path: str = None):
             eq_parts.append(f'{c:.4f}·n^{pw}')
     eq_str = ' + '.join(eq_parts)
 
-    info_steps = (f'Grado forzado: 2  (cuadrático)\n'
+    info_steps = (f'Grado: {deg_steps}\n'
                   f'R² = {r2_steps:.4f}\n'
-                  f'f(n) ≈ {eq_str}\n'
                   f'Complejidad: {complexity_from_degree(deg_steps)}')
-    ax2.text(0.98, 0.02, info_steps, transform=ax2.transAxes,
-             fontsize=9, family='monospace', verticalalignment='bottom',
-             horizontalalignment='right',
-             bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.85))
+    ax2.text(0.50, 0.88, info_steps, transform=ax2.transAxes,
+             fontsize=10, family='monospace', verticalalignment='top',
+             horizontalalignment='center',
+             bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.92, edgecolor='black', linewidth=1.5))
 
     fig2.tight_layout()
     path2 = os.path.join(os.path.dirname(__file__), "..", "Análisis Empírico", 'steps_vs_input.png')
@@ -235,9 +234,9 @@ def generate_report(results: List[Dict], save_path: str = None):
     n_values = np.array([r['n'] for r in valid_results])
     steps = np.array([r['steps'] for r in valid_results])
     
-    # Probar grados 1-5 pero forzar grado 2 para el reporte
+    # Probar grados 1-5 y usar el mejor para el reporte
     print("\n--- ANÁLISIS PARA REPORTE ---")
-    best_degree, coefficients, r_squared = find_best_polynomial(n_values, steps, max_degree=5, force_degree=2)
+    best_degree, coefficients, r_squared = find_best_polynomial(n_values, steps, max_degree=5)
     complexity = complexity_from_degree(best_degree)
     
     # Crear reporte
@@ -272,11 +271,17 @@ que calcula la sucesión de Fibonacci.
 ### Regresión Polinomial
 
 Se probaron polinomios de grado 1 a 5 para ajustar los datos empíricos.
-Para el análisis final se utilizó un polinomio de grado 2 (cuadrático) por consideraciones teóricas.
+El grado seleccionado fue el que ofreció el mejor ajuste (R² más alto).
 
 - **Grado utilizado**: Polinomio de grado {best_degree}
 - **Coeficiente R²**: {r_squared:.6f}
 - **Complejidad asintótica**: **{complexity}**
+
+### Nota sobre Fibonacci
+
+Los números de Fibonacci crecen exponencialmente (~φ^n donde φ≈1.618).
+En representación unaria, la MT debe copiar valores que crecen exponencialmente,
+resultando en un comportamiento que puede aproximarse con polinomios de alto grado.
 
 ### Ecuación del Modelo
 
@@ -301,6 +306,13 @@ Esto significa que:
     elif best_degree == 3:
         report += "- El tiempo crece **cúbicamente** con el tamaño de entrada\n"
         report += "- Duplicar la entrada multiplica el tiempo por ~8\n"
+    elif best_degree == 4:
+        report += "- El tiempo crece **cuárticamente** (grado 4) con el tamaño de entrada\n"
+        report += "- Duplicar la entrada multiplica el tiempo por ~16\n"
+    elif best_degree == 5:
+        report += "- El tiempo crece **quínticamente** (grado 5) con el tamaño de entrada\n"
+        report += "- Duplicar la entrada multiplica el tiempo por ~32\n"
+        report += "- Este alto grado sugiere un comportamiento cercano al exponencial\n"
     else:
         report += f"- El tiempo crece **polinómicamente** con exponente {best_degree}\n"
         report += f"- Duplicar la entrada multiplica el tiempo por ~{2**best_degree}\n"
