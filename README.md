@@ -1,15 +1,19 @@
-# Simulador de Máquina de Turing
+# Universidad del Valle de Guatemala
+## Departamento de Computación
+### Análisis y Diseño de Algoritmos
+
+# Proyecto No. 1 Simulador de Máquina de Turing
 
 Este proyecto implementa un simulador completo de una Máquina de Turing en Python. Incluye la capacidad de cargar máquinas desde archivos JSON, ejecutar simulaciones paso a paso con una cinta infinita, visualizar el diagrama de estados de la máquina y realizar análisis empíricos (benchmarks) de su rendimiento.
 
 Como caso de estudio principal, el proyecto incluye una Máquina de Turing diseñada para calcular la secuencia de Fibonacci.
 
-## 👥 Integrantes
+## Integrantes
 
-* **Angie Nadissa Vela Lopez**
-* **Vianka Vanessa Castro Ordoñez**
+* **Angie Nadissa Vela Lopez, 23764**
+* **Vianka Vanessa Castro Ordoñez, 23201**
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 
 El repositorio está organizado de la siguiente manera:
 
@@ -73,7 +77,7 @@ python -m src.cli --machine machines/fibonacci.json --input "11111" --trace
 El proyecto incluye una herramienta para generar diagramas de transición de estados a partir de los archivos JSON.
 
 ```bash
-python -m src.visualize_tm
+python src/visualize_tm.py
 ```
 *(Asegúrate de revisar los argumentos dentro del script o modificar la ruta del JSON de entrada según sea necesario).* Esto generará un archivo `.dot` y un `.png` con el grafo de la máquina.
 
