@@ -1,0 +1,178 @@
+[
+  {
+    "n": 5,
+    "input_size": 5,
+    "input": "11111",
+    "steps": 310,
+    "time_ms": 0.2111000030708965,
+    "time_s": 0.0002111000030708965,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 6,
+    "input_size": 6,
+    "input": "111111",
+    "steps": 561,
+    "time_ms": 0.3851000001304783,
+    "time_s": 0.0003851000001304783,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 7,
+    "input_size": 7,
+    "input": "1111111",
+    "steps": 1083,
+    "time_ms": 0.8026000032259617,
+    "time_s": 0.0008026000032259617,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 8,
+    "input_size": 8,
+    "input": "11111111",
+    "steps": 2244,
+    "time_ms": 1.5187999997579027,
+    "time_s": 0.0015187999997579027,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 9,
+    "input_size": 9,
+    "input": "111111111",
+    "steps": 4987,
+    "time_ms": 4.228800000419142,
+    "time_s": 0.004228800000419142,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 10,
+    "input_size": 10,
+    "input": "1111111111",
+    "steps": 11711,
+    "time_ms": 11.155600001075072,
+    "time_s": 0.011155600001075072,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 11,
+    "input_size": 11,
+    "input": "11111111111",
+    "steps": 28618,
+    "time_ms": 27.129199999762932,
+    "time_s": 0.027129199999762932,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 12,
+    "input_size": 12,
+    "input": "111111111111",
+    "steps": 71785,
+    "time_ms": 49.61709999770392,
+    "time_s": 0.04961709999770392,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 13,
+    "input_size": 13,
+    "input": "1111111111111",
+    "steps": 183075,
+    "time_ms": 173.0427000002237,
+    "time_s": 0.1730427000002237,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 14,
+    "input_size": 14,
+    "input": "11111111111111",
+    "steps": 471688,
+    "time_ms": 586.7749999997613,
+    "time_s": 0.5867749999997613,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 15,
+    "input_size": 15,
+    "input": "111111111111111",
+    "steps": 1222899,
+    "time_ms": 1508.8852000008046,
+    "time_s": 1.5088852000008046,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 16,
+    "input_size": 16,
+    "input": "1111111111111111",
+    "steps": 3182543,
+    "time_ms": 5323.10580000194,
+    "time_s": 5.32310580000194,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 17,
+    "input_size": 17,
+    "input": "11111111111111111",
+    "steps": 8301614,
+    "time_ms": 8011.921600002097,
+    "time_s": 8.011921600002097,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 18,
+    "input_size": 18,
+    "input": "111111111111111111",
+    "steps": 21685217,
+    "time_ms": 22244.80340000082,
+    "time_s": 22.24480340000082,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 19,
+    "input_size": 19,
+    "input": "1111111111111111111",
+    "steps": 56694411,
+    "time_ms": 141836.02600000086,
+    "time_s": 141.83602600000086,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 20,
+    "input_size": 20,
+    "input": "11111111111111111111",
+    "steps": 148301948,
+    "time_ms": 277738.33939999895,
+    "time_s": 277.73833939999895,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  }
+]

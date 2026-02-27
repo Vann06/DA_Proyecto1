@@ -17,7 +17,7 @@ class MachineDef:
     delta: Dict[TransitionKey, TransitionVal]
 
 def load_machine(path: str) -> MachineDef:
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, "r", encoding="utf-8-sig") as f:
         data = json.load(f)
     
     blank = data.get("blank", "_")

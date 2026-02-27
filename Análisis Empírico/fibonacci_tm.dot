@@ -1,0 +1,89 @@
+digraph TM {
+  rankdir=LR;
+  label="Fibonacci en Unario";
+  labelloc="t";
+  fontsize=16;
+  fontname="Helvetica";
+  node [fontname="Helvetica"];
+  edge [fontname="Helvetica", fontsize=10];
+  splines=ortho;  // Aristas ortogonales para evitar encimamiento
+  nodesep=0.8;  // Espacio entre nodos
+  ranksep=1.2;  // Espacio entre niveles
+
+  "__start__" [shape=point, width=0.2];
+  "q0" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q1" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q2" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q3" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q4" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_cb1_goto_a" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_cb1_goto_end" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_cb1_skip_a" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_cb2_goto_b" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_cb2_goto_end" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_check_counter" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_cleanup" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_copy_block1" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_copy_block2" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_erase_left" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_find_Y" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_find_block1" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_goto_end_for_copy" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_loop_start" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_mark_Y" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_n1" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_restore_Y" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_restore_a" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "q_restore_b" [shape=circle, style=filled, fillcolor="#e3f2fd", color="#1565c0"];
+  "qa" [shape=doublecircle, style=filled, fillcolor="#d4edda", color="#28a745"];
+  "qr" [shape=doublecircle, style=filled, fillcolor="#f8d7da", color="#dc3545"];
+
+  "__start__" -> "q0";
+
+  "q0" -> "q1" [label="1 / Z,R"];
+  "q0" -> "qa" [label="_ / _,S"];
+  "q1" -> "q2" [label="1 / 1,R"];
+  "q1" -> "q_n1" [label="_ / _,L"];
+  "q2" -> "q2" [label="1 / 1,R", dir=forward, constraint=false];
+  "q2" -> "q3" [label="_ / #,R"];
+  "q3" -> "q4" [label="_ / #,R"];
+  "q4" -> "q_loop_start" [label="_ / 1,L"];
+  "q_cb1_goto_a" -> "q_cb1_goto_a" [label="1 / 1,L\n# / #,L", dir=forward, constraint=false];
+  "q_cb1_goto_a" -> "q_cb1_skip_a" [label="a / a,L"];
+  "q_cb1_goto_end" -> "q_cb1_goto_a" [label="_ / 1,L"];
+  "q_cb1_goto_end" -> "q_cb1_goto_end" [label="1 / 1,R\n# / #,R\na / a,R", dir=forward, constraint=false];
+  "q_cb1_skip_a" -> "q_cb1_skip_a" [label="a / a,L", dir=forward, constraint=false];
+  "q_cb1_skip_a" -> "q_copy_block1" [label="1 / 1,S\n# / #,S"];
+  "q_cb2_goto_b" -> "q_cb2_goto_b" [label="1 / 1,L\n# / #,L", dir=forward, constraint=false];
+  "q_cb2_goto_b" -> "q_copy_block2" [label="b / b,R"];
+  "q_cb2_goto_end" -> "q_cb2_goto_b" [label="_ / 1,L"];
+  "q_cb2_goto_end" -> "q_cb2_goto_end" [label="1 / 1,R\nb / b,R\n# / #,R", dir=forward, constraint=false];
+  "q_check_counter" -> "q_cleanup" [label="# / #,R"];
+  "q_check_counter" -> "q_goto_end_for_copy" [label="1 / X,R"];
+  "q_cleanup" -> "q_cleanup" [label="1 / 1,R\n# / #,R", dir=forward, constraint=false];
+  "q_cleanup" -> "q_mark_Y" [label="_ / _,L"];
+  "q_copy_block1" -> "q_cb1_goto_end" [label="1 / a,R"];
+  "q_copy_block1" -> "q_restore_a" [label="# / #,R"];
+  "q_copy_block2" -> "q_cb2_goto_end" [label="1 / b,R"];
+  "q_copy_block2" -> "q_restore_b" [label="# / #,L"];
+  "q_erase_left" -> "q_erase_left" [label="1 / _,L\n# / _,L\nX / _,L", dir=forward, constraint=false];
+  "q_erase_left" -> "q_find_Y" [label="Z / _,R"];
+  "q_find_Y" -> "q_find_Y" [label="_ / _,R", dir=forward, constraint=false];
+  "q_find_Y" -> "q_restore_Y" [label="Y / 1,R"];
+  "q_find_Y" -> "qa" [label="1 / 1,S"];
+  "q_find_block1" -> "q_copy_block1" [label="# / #,L"];
+  "q_find_block1" -> "q_find_block1" [label="1 / 1,L", dir=forward, constraint=false];
+  "q_goto_end_for_copy" -> "q_find_block1" [label="_ / #,L"];
+  "q_goto_end_for_copy" -> "q_goto_end_for_copy" [label="1 / 1,R\n# / #,R", dir=forward, constraint=false];
+  "q_loop_start" -> "q_check_counter" [label="Z / Z,R\nX / X,R"];
+  "q_loop_start" -> "q_loop_start" [label="1 / 1,L\n# / #,L", dir=forward, constraint=false];
+  "q_mark_Y" -> "q_erase_left" [label="# / _,L"];
+  "q_mark_Y" -> "q_mark_Y" [label="1 / Y,L", dir=forward, constraint=false];
+  "q_n1" -> "qa" [label="Z / 1,S"];
+  "q_restore_Y" -> "q_restore_Y" [label="Y / 1,R", dir=forward, constraint=false];
+  "q_restore_Y" -> "qa" [label="_ / _,L"];
+  "q_restore_a" -> "q_copy_block2" [label="# / #,R"];
+  "q_restore_a" -> "q_restore_a" [label="a / 1,R", dir=forward, constraint=false];
+  "q_restore_b" -> "q_loop_start" [label="# / #,L"];
+  "q_restore_b" -> "q_restore_b" [label="b / 1,L", dir=forward, constraint=false];
+}

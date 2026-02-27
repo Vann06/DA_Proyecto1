@@ -1,0 +1,27 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+
+# Virtual environments
+venv/
+env/
+ENV/
+.env
+
+# VS Code
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Project specific generated files
+trace.txt
+trace_*.txt
+.dist/
+Análisis Empírico/benchmark_results.json
+Análisis Empírico/fibonacci_tm.dot
+Análisis Empírico/fibonacci_tm.png
+Análisis Empírico/report.md

@@ -5,7 +5,7 @@ from .loader import MachineDef
 
 @dataclass
 class RunResult:
-    status: str  # "ACCEPT", "REJECT", "TIMEOUT"
+    status: str  # "ACCEPT", "REJECT", "TIMEOUT_TIME", "TIMEOUT_STEPS", "UNKNOWN"
     steps: int
     final_state: str
 
@@ -38,8 +38,12 @@ class TuringMachine:
         self.steps += 1
         return True
 
-    def run(self, max_steps: int = 10000, trace: bool = True, window: int = 20) -> RunResult:
-        for _ in range(max_steps):
+    def run(self, max_steps: int = 10000, trace: bool = True, window: int = 20, max_time: float = None) -> RunResult:
+        import time
+        start_time = time.time()
+        for i in range(max_steps):
+            if max_time is not None and i % 100000 == 0 and time.time() - start_time > max_time:
+                return RunResult("TIMEOUT_TIME", self.steps, self.state)
             if trace:
                 snap, left_index = self.tape.snapshot(window)
                 head_in_snap = self.tape.head - left_index
@@ -51,9 +55,12 @@ class TuringMachine:
 
             if not self.step():
                 break
+        else:
+            # Si el bucle termina sin hacer break, se alcanzó el límite de pasos
+            return RunResult("TIMEOUT_STEPS", self.steps, self.state)
 
         if self.state in self.m.accept_states:
             return RunResult("ACCEPT", self.steps, self.state)
         if self.state in self.m.reject_states:
             return RunResult("REJECT", self.steps, self.state)
-        return RunResult("TIMEOUT", self.steps, self.state)
+        return RunResult("UNKNOWN", self.steps, self.state)
