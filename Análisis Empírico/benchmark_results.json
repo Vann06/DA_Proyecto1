@@ -1,0 +1,68 @@
+[
+  {
+    "n": 5,
+    "input_size": 5,
+    "input": "11111",
+    "steps": 310,
+    "time_ms": 0.1713000237941742,
+    "time_s": 0.0001713000237941742,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 10,
+    "input_size": 10,
+    "input": "1111111111",
+    "steps": 11711,
+    "time_ms": 6.652800017036498,
+    "time_s": 0.006652800017036498,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 15,
+    "input_size": 15,
+    "input": "111111111111111",
+    "steps": 1222899,
+    "time_ms": 743.9204000402242,
+    "time_s": 0.7439204000402242,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 20,
+    "input_size": 20,
+    "input": "11111111111111111111",
+    "steps": 148301948,
+    "time_ms": 529014.1201,
+    "time_s": 529.0141201,
+    "repetitions": 1,
+    "status": "ACCEPT",
+    "final_state": "qa"
+  },
+  {
+    "n": 25,
+    "input_size": 25,
+    "input": "1111111111111111111111111",
+    "steps": 72400000,
+    "time_ms": 60036.508699995466,
+    "time_s": 60.036508699995466,
+    "repetitions": 1,
+    "status": "TIMEOUT",
+    "final_state": "q_cb1_goto_end"
+  },
+  {
+    "n": 30,
+    "input_size": 30,
+    "input": "111111111111111111111111111111",
+    "steps": 74200000,
+    "time_ms": 60116.15599994548,
+    "time_s": 60.11615599994548,
+    "repetitions": 1,
+    "status": "TIMEOUT",
+    "final_state": "q_cb1_goto_a"
+  }
+]

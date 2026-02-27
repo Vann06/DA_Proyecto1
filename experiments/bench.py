@@ -16,13 +16,13 @@ from src.loader import load_machine
 from src.tape import Tape
 from src.machine import TuringMachine
 
-def generate_inputs_fibonacci(max_n: int = 10) -> List[tuple]:
+def generate_inputs_fibonacci(min_n: int = 5, max_n: int = 20) -> List[tuple]:
     """
     Genera entradas en unario para la máquina de Fibonacci
     Retorna lista de tuplas (n, entrada_string)
     """
     inputs = []
-    for n in range(0, max_n + 1):
+    for n in range(min_n, max_n + 1):
         input_str = "1" * n
         inputs.append((n, input_str))
     return inputs
@@ -50,20 +50,21 @@ def benchmark_machine(machine_path: str, inputs: List[tuple], max_steps: int = 1
     print("*" * 60)
     
     # Número de repeticiones para obtener tiempos promedio estables
-    REPS = 5000
+    REPS = 1
 
     for n, input_str in inputs:
         # Primera ejecución para obtener steps y status
         tape = Tape(input_str, blank=machine_def.blank)
         tm = TuringMachine(machine_def, tape)
-        result = tm.run(max_steps=max_steps, trace=False, window=20)
+        # Limitar a 600 segundos por ejecución para evitar que se cuelgue en n=25 y n=30
+        result = tm.run(max_steps=max_steps, trace=False, window=20, max_time=600.0)
 
         # Ejecutar REPS veces para medir tiempo promedio
         start_time = time.perf_counter()
         for _ in range(REPS):
             t = Tape(input_str, blank=machine_def.blank)
             m = TuringMachine(machine_def, t)
-            m.run(max_steps=max_steps, trace=False, window=20)
+            m.run(max_steps=max_steps, trace=False, window=20, max_time=600.0)
         end_time = time.perf_counter()
 
         avg_ms = ((end_time - start_time) / REPS) * 1000
@@ -94,7 +95,8 @@ def save_results(results: List[Dict], output_file: str = "benchmark_results.json
     """
     Guarda los resultados del benchmark en un archivo JSON
     """
-    output_path = os.path.join(os.path.dirname(__file__), output_file)
+    output_path = os.path.join(os.path.dirname(__file__), '..', 'Análisis Empírico', output_file)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(results, f, indent=2)
     print(f"\nResultados guardados en: {output_path}")
@@ -169,14 +171,15 @@ def main():
     
     # Generar entradas (ajustar max_n para controlar número de pruebas)
     # NOTA: Empezar con valores pequeños. La máquina puede ser lenta para n grandes.
-    max_n = 6  # Aumentar gradualmente después de verificar que funciona
-    inputs = generate_inputs_fibonacci(max_n)
+    min_n = 5
+    max_n = 20
+    inputs = generate_inputs_fibonacci(min_n, max_n)
     
-    print(f"Generando {len(inputs)} casos de prueba (n=0 hasta n={max_n})")
+    print(f"Generando {len(inputs)} casos de prueba (n={min_n} hasta n={max_n})")
     print()
     
     # Ejecutar benchmark
-    results = benchmark_machine(machine_path, inputs, max_steps=100000)
+    results = benchmark_machine(machine_path, inputs, max_steps=200000000)
     
     # Mostrar resumen
     print_summary(results)

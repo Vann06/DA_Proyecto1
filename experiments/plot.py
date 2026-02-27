@@ -16,7 +16,7 @@ def load_results(filename: str = "benchmark_results.json") -> List[Dict]:
     """
     Carga los resultados del benchmark desde un archivo JSON
     """
-    filepath = os.path.join(os.path.dirname(__file__), filename)
+    filepath = os.path.join(os.path.dirname(__file__), "..", "Análisis Empírico", filename)
     
     if not os.path.exists(filepath):
         print(f"Error: No se encontró el archivo {filepath}")
@@ -107,9 +107,14 @@ def plot_scatter_with_regression(results: List[Dict], save_path: str = None):
     Ambas muestran todos los grados de 1 a 5 en consola y fuerzan grado 2.
     """
     # Extraer datos
-    n_values = np.array([r['n'] for r in results], dtype=float)
-    times_ms = np.array([r['time_ms'] for r in results], dtype=float)
-    steps    = np.array([r['steps'] for r in results], dtype=float)
+    valid_results = [r for r in results if r['status'] == 'ACCEPT']
+    if not valid_results:
+        print("No hay resultados válidos para graficar.")
+        return None, None, None, None, None, None
+        
+    n_values = np.array([r['n'] for r in valid_results], dtype=float)
+    times_ms = np.array([r['time_ms'] for r in valid_results], dtype=float)
+    steps    = np.array([r['steps'] for r in valid_results], dtype=float)
 
     # ------ Análisis: probar grados 1-5, forzar grado 2 ------
     print("\n--- ANÁLISIS PARA TIEMPO DE EJECUCIÓN ---")
@@ -159,7 +164,7 @@ def plot_scatter_with_regression(results: List[Dict], save_path: str = None):
              bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.85))
 
     fig1.tight_layout()
-    path1 = save_path or os.path.join(os.path.dirname(__file__), 'time_vs_input.png')
+    path1 = save_path or os.path.join(os.path.dirname(__file__), "..", "Análisis Empírico", 'time_vs_input.png')
     fig1.savefig(path1, dpi=300, bbox_inches='tight')
     print(f"\nDiagrama de dispersión (tiempo) guardado en: {path1}")
     plt.show()
@@ -211,7 +216,7 @@ def plot_scatter_with_regression(results: List[Dict], save_path: str = None):
              bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.85))
 
     fig2.tight_layout()
-    path2 = os.path.join(os.path.dirname(__file__), 'steps_vs_input.png')
+    path2 = os.path.join(os.path.dirname(__file__), "..", "Análisis Empírico", 'steps_vs_input.png')
     fig2.savefig(path2, dpi=300, bbox_inches='tight')
     print(f"Diagrama de dispersión (pasos)  guardado en: {path2}")
     plt.show()
@@ -223,11 +228,12 @@ def generate_report(results: List[Dict], save_path: str = None):
     Genera un reporte detallado del análisis
     """
     if save_path is None:
-        save_path = os.path.join(os.path.dirname(__file__), '..', 'report', 'report.md')
+        save_path = os.path.join(os.path.dirname(__file__), '..', 'Análisis Empírico', 'report.md')
     
     # Extraer datos
-    n_values = np.array([r['n'] for r in results])
-    steps = np.array([r['steps'] for r in results])
+    valid_results = [r for r in results if r['status'] == 'ACCEPT']
+    n_values = np.array([r['n'] for r in valid_results])
+    steps = np.array([r['steps'] for r in valid_results])
     
     # Probar grados 1-5 pero forzar grado 2 para el reporte
     print("\n--- ANÁLISIS PARA REPORTE ---")
@@ -355,9 +361,9 @@ def main():
     print("ANÁLISIS COMPLETADO")
     print("*" * 60)
     print("\nArchivos generados:")
-    print("  - experiments/steps_vs_input.png")
-    print("  - experiments/time_vs_input.png")
-    print("  - report/report.md")
+    print("  - Análisis Empírico/steps_vs_input.png")
+    print("  - Análisis Empírico/time_vs_input.png")
+    print("  - Análisis Empírico/report.md")
 
 if __name__ == "__main__":
     main()

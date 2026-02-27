@@ -1,63 +1,99 @@
-{
+﻿{
     "name": "Fibonacci en Unario",
     "blank": "_",
     "start_state": "q0",
     "accept_states": ["qa"],
     "reject_states": ["qr"],
-    "table_alphabet": ["1", "X", "a", "b", "#", "_"],
+    "table_alphabet": ["1", "X", "Z", "a", "b", "Y", "#", "_"],
     "input_alphabet": ["1"],
     "description": "Calcula F(n) iterativamente. Entrada n unos -> Salida F(n) unos",
     "conventions": {
-        "input": "n en unario (n ones). Ejemplo: '111' = 3",
+        "input": "n en unario (n unos). Ejemplo: '111' = 3",
         "output": "F(n) en unario. F(0)=0, F(1)=1, F(2)=1, F(3)=2, F(4)=3, etc.",
-        "algorithm": "Para casos pequeños (n<=1) respuesta directa. Para n>=2, tabla lookup simplificada"
+        "algorithm": "Mantiene bloques de unos separados por #. En cada paso, copia los dos ultimos bloques y los concatena al final."
     },
     "transitions": [
         {"state": "q0", "read": "_", "write": "_", "move": "S", "next": "qa"},
-        {"state": "q0", "read": "1", "write": "X", "move": "R", "next": "q1"},
+        {"state": "q0", "read": "1", "write": "Z", "move": "R", "next": "q1"},
         
-        {"state": "q1", "read": "_", "write": "1", "move": "L", "next": "qclean1"},
-        {"state": "q1", "read": "1", "write": "X", "move": "R", "next": "q2"},
+        {"state": "q1", "read": "_", "write": "_", "move": "L", "next": "q_n1"},
+        {"state": "q_n1", "read": "Z", "write": "1", "move": "S", "next": "qa"},
         
-        {"state": "qclean1", "read": "X", "write": "_", "move": "R", "next": "qfinal1"},
-        {"state": "qfinal1", "read": "1", "write": "1", "move": "S", "next": "qa"},
+        {"state": "q1", "read": "1", "write": "1", "move": "R", "next": "q2"},
         
-        {"state": "q2", "read": "_", "write": "1", "move": "S", "next": "qa"},
-        {"state": "q2", "read": "1", "write": "X", "move": "R", "next": "q3"},
+        {"state": "q2", "read": "1", "write": "1", "move": "R", "next": "q2"},
+        {"state": "q2", "read": "_", "write": "#", "move": "R", "next": "q3"},
         
-        {"state": "q3", "read": "_", "write": "1", "move": "R", "next": "q3b"},
-        {"state": "q3", "read": "1", "write": "X", "move": "R", "next": "q4"},
+        {"state": "q3", "read": "_", "write": "#", "move": "R", "next": "q4"},
         
-        {"state": "q3b", "read": "_", "write": "1", "move": "S", "next": "qa"},
+        {"state": "q4", "read": "_", "write": "1", "move": "L", "next": "q_loop_start"},
         
-        {"state": "q4", "read": "_", "write": "1", "move": "R", "next": "q4b"},
-        {"state": "q4", "read": "1", "write": "X", "move": "R", "next": "q5"},
+        {"state": "q_loop_start", "read": "1", "write": "1", "move": "L", "next": "q_loop_start"},
+        {"state": "q_loop_start", "read": "#", "write": "#", "move": "L", "next": "q_loop_start"},
+        {"state": "q_loop_start", "read": "Z", "write": "Z", "move": "R", "next": "q_check_counter"},
+        {"state": "q_loop_start", "read": "X", "write": "X", "move": "R", "next": "q_check_counter"},
         
-        {"state": "q4b", "read": "_", "write": "1", "move": "R", "next": "q4c"},
-        {"state": "q4c", "read": "_", "write": "1", "move": "S", "next": "qa"},
+        {"state": "q_check_counter", "read": "1", "write": "X", "move": "R", "next": "q_goto_end_for_copy"},
+        {"state": "q_check_counter", "read": "#", "write": "#", "move": "R", "next": "q_cleanup"},
         
-        {"state": "q5", "read": "_", "write": "1", "move": "R", "next": "q5b"},
-        {"state": "q5", "read": "1", "write": "X", "move": "R", "next": "q6"},
+        {"state": "q_goto_end_for_copy", "read": "1", "write": "1", "move": "R", "next": "q_goto_end_for_copy"},
+        {"state": "q_goto_end_for_copy", "read": "#", "write": "#", "move": "R", "next": "q_goto_end_for_copy"},
+        {"state": "q_goto_end_for_copy", "read": "_", "write": "#", "move": "L", "next": "q_find_block1"},
         
-        {"state": "q5b", "read": "_", "write": "1", "move": "R", "next": "q5c"},
-        {"state": "q5c", "read": "_", "write": "1", "move": "R", "next": "q5d"},
-        {"state": "q5d", "read": "_", "write": "1", "move": "R", "next": "q5e"},
-        {"state": "q5e", "read": "_", "write": "1", "move": "R", "next": "q5f"},
-        {"state": "q5f", "read": "_", "write": "1", "move": "S", "next": "qa"},
+        {"state": "q_find_block1", "read": "1", "write": "1", "move": "L", "next": "q_find_block1"},
+        {"state": "q_find_block1", "read": "#", "write": "#", "move": "L", "next": "q_copy_block1"},
         
-        {"state": "q6", "read": "_", "write": "1", "move": "R", "next": "q6b"},
-        {"state": "q6", "read": "1", "write": "X", "move": "R", "next": "q7"},
+        {"state": "q_copy_block1", "read": "1", "write": "a", "move": "R", "next": "q_cb1_goto_end"},
+        {"state": "q_copy_block1", "read": "#", "write": "#", "move": "R", "next": "q_restore_a"},
         
-        {"state": "q6b", "read": "_", "write": "1", "move": "R", "next": "q6c"},
-        {"state": "q6c", "read": "_", "write": "1", "move": "R", "next": "q6d"},
-        {"state": "q6d", "read": "_", "write": "1", "move": "R", "next": "q6e"},
-        {"state": "q6e", "read": "_", "write": "1", "move": "R", "next": "q6f"},
-        {"state": "q6f", "read": "_", "write": "1", "move": "R", "next": "q6g"},
-        {"state": "q6g", "read": "_", "write": "1", "move": "R", "next": "q6h"},
-        {"state": "q6h", "read": "_", "write": "1", "move": "R", "next": "q6i"},
-        {"state": "q6i", "read": "_", "write": "1", "move": "S", "next": "qa"},
+        {"state": "q_cb1_goto_end", "read": "1", "write": "1", "move": "R", "next": "q_cb1_goto_end"},
+        {"state": "q_cb1_goto_end", "read": "#", "write": "#", "move": "R", "next": "q_cb1_goto_end"},
+        {"state": "q_cb1_goto_end", "read": "a", "write": "a", "move": "R", "next": "q_cb1_goto_end"},
+        {"state": "q_cb1_goto_end", "read": "_", "write": "1", "move": "L", "next": "q_cb1_goto_a"},
         
-        {"state": "q7", "read": "_", "write": "_", "move": "S", "next": "qr"},
-        {"state": "q7", "read": "1", "write": "X", "move": "S", "next": "qr"}
+        {"state": "q_cb1_goto_a", "read": "1", "write": "1", "move": "L", "next": "q_cb1_goto_a"},
+        {"state": "q_cb1_goto_a", "read": "#", "write": "#", "move": "L", "next": "q_cb1_goto_a"},
+        {"state": "q_cb1_goto_a", "read": "a", "write": "a", "move": "L", "next": "q_cb1_skip_a"},
+        
+        {"state": "q_cb1_skip_a", "read": "a", "write": "a", "move": "L", "next": "q_cb1_skip_a"},
+        {"state": "q_cb1_skip_a", "read": "1", "write": "1", "move": "S", "next": "q_copy_block1"},
+        {"state": "q_cb1_skip_a", "read": "#", "write": "#", "move": "S", "next": "q_copy_block1"},
+        
+        {"state": "q_restore_a", "read": "a", "write": "1", "move": "R", "next": "q_restore_a"},
+        {"state": "q_restore_a", "read": "#", "write": "#", "move": "R", "next": "q_copy_block2"},
+        
+        {"state": "q_copy_block2", "read": "1", "write": "b", "move": "R", "next": "q_cb2_goto_end"},
+        {"state": "q_copy_block2", "read": "#", "write": "#", "move": "L", "next": "q_restore_b"},
+        
+        {"state": "q_cb2_goto_end", "read": "1", "write": "1", "move": "R", "next": "q_cb2_goto_end"},
+        {"state": "q_cb2_goto_end", "read": "b", "write": "b", "move": "R", "next": "q_cb2_goto_end"},
+        {"state": "q_cb2_goto_end", "read": "#", "write": "#", "move": "R", "next": "q_cb2_goto_end"},
+        {"state": "q_cb2_goto_end", "read": "_", "write": "1", "move": "L", "next": "q_cb2_goto_b"},
+        
+        {"state": "q_cb2_goto_b", "read": "1", "write": "1", "move": "L", "next": "q_cb2_goto_b"},
+        {"state": "q_cb2_goto_b", "read": "#", "write": "#", "move": "L", "next": "q_cb2_goto_b"},
+        {"state": "q_cb2_goto_b", "read": "b", "write": "b", "move": "R", "next": "q_copy_block2"},
+        
+        {"state": "q_restore_b", "read": "b", "write": "1", "move": "L", "next": "q_restore_b"},
+        {"state": "q_restore_b", "read": "#", "write": "#", "move": "L", "next": "q_loop_start"},
+        
+        {"state": "q_cleanup", "read": "1", "write": "1", "move": "R", "next": "q_cleanup"},
+        {"state": "q_cleanup", "read": "#", "write": "#", "move": "R", "next": "q_cleanup"},
+        {"state": "q_cleanup", "read": "_", "write": "_", "move": "L", "next": "q_mark_Y"},
+        
+        {"state": "q_mark_Y", "read": "1", "write": "Y", "move": "L", "next": "q_mark_Y"},
+        {"state": "q_mark_Y", "read": "#", "write": "_", "move": "L", "next": "q_erase_left"},
+        
+        {"state": "q_erase_left", "read": "1", "write": "_", "move": "L", "next": "q_erase_left"},
+        {"state": "q_erase_left", "read": "#", "write": "_", "move": "L", "next": "q_erase_left"},
+        {"state": "q_erase_left", "read": "X", "write": "_", "move": "L", "next": "q_erase_left"},
+        {"state": "q_erase_left", "read": "Z", "write": "_", "move": "R", "next": "q_find_Y"},
+        
+        {"state": "q_find_Y", "read": "_", "write": "_", "move": "R", "next": "q_find_Y"},
+        {"state": "q_find_Y", "read": "Y", "write": "1", "move": "R", "next": "q_restore_Y"},
+        {"state": "q_find_Y", "read": "1", "write": "1", "move": "S", "next": "qa"},
+        
+        {"state": "q_restore_Y", "read": "Y", "write": "1", "move": "R", "next": "q_restore_Y"},
+        {"state": "q_restore_Y", "read": "_", "write": "_", "move": "L", "next": "qa"}
     ]
 }

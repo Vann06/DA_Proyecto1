@@ -1,5 +1,10 @@
 # Core: Tape y Loader
 
+## Convenciones de la Cinta
+
+- **Enteros no negativos**: Se representan en formato unario. Un número $n$ se representa como una secuencia de $n$ símbolos `1`. Por ejemplo, el número 3 se representa como `111`. El número 0 se representa como una cadena vacía (o una celda en blanco `_`).
+- **Interpretación de respuesta**: La respuesta de la máquina se encuentra en la cinta al finalizar la ejecución. Para la máquina de Fibonacci, la respuesta es el número de Fibonacci $F(n)$ representado en unario. La máquina se detiene en un estado de aceptación (`qa`) si la computación fue exitosa, y la cabeza de lectura/escritura se posiciona al inicio de la respuesta o en una posición cercana definida por la convención de la máquina.
+
 ## Tape (src/tape.py)
 La clase `Tape` modela la cinta infinita de una Máquina de Turing.
 

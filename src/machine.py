@@ -38,8 +38,12 @@ class TuringMachine:
         self.steps += 1
         return True
 
-    def run(self, max_steps: int = 10000, trace: bool = True, window: int = 20) -> RunResult:
-        for _ in range(max_steps):
+    def run(self, max_steps: int = 10000, trace: bool = True, window: int = 20, max_time: float = None) -> RunResult:
+        import time
+        start_time = time.time()
+        for i in range(max_steps):
+            if max_time is not None and i % 100000 == 0 and time.time() - start_time > max_time:
+                break
             if trace:
                 snap, left_index = self.tape.snapshot(window)
                 head_in_snap = self.tape.head - left_index
